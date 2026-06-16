@@ -1,0 +1,4 @@
+.env
+cookies/
+data/
+node_modules/
