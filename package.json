@@ -4,11 +4,13 @@
   "type": "module",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "dashboard": "node src/serve.js"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
     "fast-csv": "^5.0.1",
+    "nodemailer": "^9.0.0",
     "puppeteer": "^24.15.0"
   }
 }

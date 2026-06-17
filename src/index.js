@@ -2,8 +2,10 @@ import 'dotenv/config';
 import { launchBrowser } from './browser.js';
 import { ensureLoggedIn } from './auth.js';
 import { scrapeKeyword } from './scraper.js';
-import { saveResults } from './output.js';
+import { saveResults, saveProfitReport } from './output.js';
 import { randomDelay, deduplicateById } from './utils.js';
+import { analyseProfit } from './profitAnalyser.js';
+import { notifyDeals } from './notifier.js';
 
 const KEYWORDS = [
   'pc', 'computer', 'motherboard', 'cpu', 'ram',
@@ -18,25 +20,49 @@ if (!FB_EMAIL || !FB_PASSWORD) {
   process.exit(1);
 }
 
-const { browser, page } = await launchBrowser();
+async function run() {
+  const { browser, page } = await launchBrowser();
 
-try {
-  await ensureLoggedIn(page, FB_EMAIL, FB_PASSWORD);
+  try {
+    await ensureLoggedIn(page, FB_EMAIL, FB_PASSWORD);
 
-  const allListings = [];
+    const allListings = [];
 
-  for (const keyword of KEYWORDS) {
-    const results = await scrapeKeyword(page, keyword);
-    allListings.push(...results);
-    console.log(`[index] "${keyword}" → ${results.length} listings (total so far: ${allListings.length})`);
-    await randomDelay(3000, 7000);
+    for (const keyword of KEYWORDS) {
+      const results = await scrapeKeyword(page, keyword);
+      allListings.push(...results);
+      console.log(`[index] "${keyword}" → ${results.length} listings (total so far: ${allListings.length})`);
+      await randomDelay(3000, 7000);
+    }
+
+    const deduped = deduplicateById(allListings);
+    console.log(`[index] Deduplication: ${allListings.length} → ${deduped.length} unique listings.`);
+
+    await saveResults(deduped);
+
+    const dealsByKeyword = await analyseProfit(deduped);
+    const totalDeals = Object.values(dealsByKeyword).reduce((n, arr) => n + arr.length, 0);
+    console.log(`[index] Found ${totalDeals} potentially profitable deals across ${Object.keys(dealsByKeyword).length} keyword(s).`);
+    await saveProfitReport(dealsByKeyword);
+    await notifyDeals(dealsByKeyword);
+
+    console.log('[index] Done.');
+  } finally {
+    await browser.close();
   }
+}
 
-  const deduped = deduplicateById(allListings);
-  console.log(`[index] Deduplication: ${allListings.length} → ${deduped.length} unique listings.`);
+const INTERVAL_HOURS = parseFloat(process.env.RUN_INTERVAL_HOURS ?? '0');
 
-  await saveResults(deduped);
-  console.log('[index] Done.');
-} finally {
-  await browser.close();
+if (INTERVAL_HOURS > 0) {
+  console.log(`[scheduler] Running every ${INTERVAL_HOURS}h. Press Ctrl+C to stop.`);
+  while (true) {
+    await run();
+    const ms = INTERVAL_HOURS * 60 * 60 * 1000;
+    const next = new Date(Date.now() + ms).toLocaleTimeString();
+    console.log(`[scheduler] Next run at ${next}`);
+    await new Promise(r => setTimeout(r, ms));
+  }
+} else {
+  await run();
 }

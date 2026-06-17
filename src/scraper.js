@@ -3,19 +3,16 @@ import { randomDelay, isUKListing } from './utils.js';
 import { ensureLoggedIn } from './auth.js';
 
 const SCROLL_ROUNDS = parseInt(process.env.SCROLL_ROUNDS ?? '3', 10);
-const LAT = process.env.LATITUDE ?? '54.5973';
-const LON = process.env.LONGITUDE ?? '-5.9301';
 const RADIUS = process.env.RADIUS ?? '10';
+const CITY_SLUG = process.env.CITY_SLUG ?? 'belfast';
 
 function buildSearchUrl(keyword) {
   const params = new URLSearchParams({
     query: keyword,
-    latitude: LAT,
-    longitude: LON,
     radius: RADIUS,
     daysSinceListed: '30',
   });
-  return `https://www.facebook.com/marketplace/category/search?${params.toString()}`;
+  return `https://www.facebook.com/marketplace/${CITY_SLUG}/search/?${params.toString()}`;
 }
 
 export async function scrapeKeyword(page, keyword) {
@@ -23,12 +20,14 @@ export async function scrapeKeyword(page, keyword) {
   console.log(`[scraper] Searching: "${keyword}" → ${url}`);
 
   try {
-    await page.goto(url, { waitUntil: 'networkidle2' });
+    await page.goto(url, { waitUntil: 'domcontentloaded' });
+    await randomDelay(2000, 3500);
 
     if (page.url().includes('/login')) {
       console.warn('[scraper] Session expired mid-run, re-logging in...');
       await ensureLoggedIn(page, process.env.FB_EMAIL, process.env.FB_PASSWORD);
-      await page.goto(url, { waitUntil: 'networkidle2' });
+      await page.goto(url, { waitUntil: 'domcontentloaded' });
+      await randomDelay(2000, 3500);
     }
 
     try {
@@ -56,7 +55,12 @@ export async function scrapeKeyword(page, keyword) {
     const results = [];
     for (const handle of handles) {
       const listing = await extractListing(handle, keyword);
-      if (listing && isUKListing(listing)) results.push(listing);
+      if (!listing) continue;
+      if (isUKListing(listing)) {
+        results.push(listing);
+      } else {
+        console.log(`[scraper] Filtered out: price="${listing.price}" location="${listing.location}"`);
+      }
     }
 
     console.log(`[scraper] ${results.length} UK listings kept for "${keyword}" (after location filter).`);
