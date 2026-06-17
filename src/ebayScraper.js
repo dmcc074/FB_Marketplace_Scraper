@@ -2,7 +2,11 @@
 // Fetches real sold prices from eBay UK for a given item name.
 // Uses only Node's built-in fetch — no npm packages required.
 
+import { RateLimiter } from './utils.js';
+
 const cache = new Map();
+// eBay will block rapid requests — enforce a minimum gap between fetches.
+const ebayLimiter = new RateLimiter(3000, 6000);
 
 /**
  * Fetch the median sold price (GBP) for an item from eBay UK sold listings.
@@ -17,6 +21,8 @@ export async function fetchEbaySoldPrice(itemName) {
   if (cache.has(key)) {
     return cache.get(key);
   }
+
+  await ebayLimiter.wait();
 
   const url =
     `https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(itemName)}&LH_Sold=1&LH_Complete=1&_sacat=0`;

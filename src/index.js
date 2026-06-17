@@ -8,9 +8,23 @@ import { analyseProfit } from './profitAnalyser.js';
 import { notifyDeals } from './notifier.js';
 
 const KEYWORDS = [
-  'pc', 'computer', 'motherboard', 'cpu', 'ram',
-  'nvidia', 'rtx', 'amd', 'tech', 'mini pc', 'laptop',
-  'desktop', 'server', '16GB', '32GB', '8GB',
+  // Individual GPUs — find single-card sellers, not whole PCs
+  'rtx 3060', 'rtx 3070', 'rtx 3080', 'rtx 3090',
+  'rtx 4060', 'rtx 4070', 'rtx 4080', 'rtx 4090',
+  'rx 6700', 'rx 6800', 'rx 6900', 'rx 7800', 'rx 7900',
+  'graphics card', 'gpu',
+  // Individual CPUs
+  'ryzen 5600', 'ryzen 5800', 'ryzen 7600', 'ryzen 7800x3d',
+  'i5 12600k', 'i7 12700k', 'i5 13600k', 'i7 13700k',
+  // Apple
+  'macbook', 'iphone 13', 'iphone 14', 'iphone 15',
+  'ipad pro', 'ipad air', 'ipad mini',
+  // Consoles
+  'ps5', 'playstation 5', 'xbox series x', 'xbox series s',
+  // Laptops
+  'gaming laptop', 'dell xps', 'thinkpad',
+  // PC
+  'gaming pc', 'pc', 'desktop', 'computer'
 ];
 
 const { FB_EMAIL, FB_PASSWORD } = process.env;
@@ -40,7 +54,7 @@ async function run() {
 
     await saveResults(deduped);
 
-    const dealsByKeyword = await analyseProfit(deduped);
+    const dealsByKeyword = await analyseProfit(deduped, page);
     const totalDeals = Object.values(dealsByKeyword).reduce((n, arr) => n + arr.length, 0);
     console.log(`[index] Found ${totalDeals} potentially profitable deals across ${Object.keys(dealsByKeyword).length} keyword(s).`);
     await saveProfitReport(dealsByKeyword);

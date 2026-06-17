@@ -1,5 +1,5 @@
 import { extractListing } from './extractor.js';
-import { randomDelay, isUKListing } from './utils.js';
+import { randomDelay, isUKListing, isNIListing } from './utils.js';
 import { ensureLoggedIn } from './auth.js';
 
 const SCROLL_ROUNDS = parseInt(process.env.SCROLL_ROUNDS ?? '3', 10);
@@ -56,10 +56,12 @@ export async function scrapeKeyword(page, keyword) {
     for (const handle of handles) {
       const listing = await extractListing(handle, keyword);
       if (!listing) continue;
-      if (isUKListing(listing)) {
-        results.push(listing);
+      if (!isUKListing(listing)) {
+        console.log(`[scraper] Filtered (US): price="${listing.price}" location="${listing.location}"`);
+      } else if (!isNIListing(listing)) {
+        console.log(`[scraper] Filtered (outside NI): "${listing.location}"`);
       } else {
-        console.log(`[scraper] Filtered out: price="${listing.price}" location="${listing.location}"`);
+        results.push(listing);
       }
     }
 

@@ -9,7 +9,7 @@ const DATA_DIR = path.resolve(__dirname, '../data');
 
 const CSV_HEADERS = ['id', 'title', 'price', 'location', 'url', 'image', 'keyword', 'scrapedAt'];
 const PROFIT_CSV_HEADERS = [
-  'keyword', 'rank', 'matchedItem', 'condition', 'title', 'price',
+  'keyword', 'rank', 'matchedItem', 'condition', 'title', 'description', 'price',
   'estimatedResaleGBP', 'netAfterFeesGBP', 'estimatedProfitGBP', 'roiPercent',
   'location', 'url', 'scrapedAt',
 ];

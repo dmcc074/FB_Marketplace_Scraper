@@ -10,9 +10,11 @@ export async function extractListing(elementHandle, keyword) {
       .map(s => s.innerText.trim())
       .filter(Boolean);
 
-    const price = spans.find(s => /^[£$][\d,]+/.test(s) || s === 'Free') ?? null;
-    const location = spans[spans.length - 1] ?? null;
-    const title = spans.find(s => s !== price && s !== location) ?? null;
+    const isPrice = s => /^[£$][\d,]+/.test(s) || s === 'Free';
+    const price = spans.find(isPrice) ?? null;
+    const nonPriceSpans = spans.filter(s => !isPrice(s));
+    const location = nonPriceSpans[nonPriceSpans.length - 1] ?? null;
+    const title = nonPriceSpans.find(s => s !== location) ?? null;
     const image = el.querySelector('img[src*="fbcdn.net"]')?.src ?? null;
 
     const t = (title ?? '').toLowerCase();

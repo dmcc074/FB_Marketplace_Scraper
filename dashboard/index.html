@@ -10,38 +10,79 @@
   header { background: #16213e; padding: 20px 28px; border-bottom: 2px solid #0f3460; }
   header h1 { font-size: 20px; color: #e94560; letter-spacing: .5px; }
   header p { color: #888; font-size: 12px; margin-top: 4px; }
-  nav { display: flex; gap: 0; background: #16213e; padding: 0 28px; border-bottom: 1px solid #0f3460; }
+  nav { display: flex; background: #16213e; padding: 0 28px; border-bottom: 1px solid #0f3460; }
   nav button { background: none; border: none; color: #aaa; padding: 12px 20px; cursor: pointer; font-size: 14px; border-bottom: 2px solid transparent; transition: color .2s, border-color .2s; }
   nav button.active { color: #e94560; border-bottom-color: #e94560; }
   nav button:hover:not(.active) { color: #e0e0e0; }
   main { padding: 24px 28px; }
   .tab { display: none; }
   .tab.active { display: block; }
+
+  /* Summary cards */
+  .summary { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+  .card { background: #16213e; border: 1px solid #0f3460; border-radius: 8px; padding: 16px 20px; min-width: 160px; flex: 1; }
+  .card .label { font-size: 11px; text-transform: uppercase; letter-spacing: .5px; color: #888; margin-bottom: 6px; }
+  .card .value { font-size: 22px; font-weight: 700; }
+  .card .value.green { color: #4caf82; }
+  .card .value.amber { color: #f0a500; }
+  .card .value.red   { color: #e94560; }
+  .card .value.white { color: #e0e0e0; }
+
+  /* Deal groups */
   details { background: #16213e; border: 1px solid #0f3460; border-radius: 8px; margin-bottom: 16px; overflow: hidden; }
   summary { padding: 12px 16px; cursor: pointer; font-weight: 600; color: #e0e0e0; background: #1a2744; user-select: none; display: flex; align-items: center; gap: 8px; }
   summary::marker { color: #e94560; }
   summary .kw { color: #e94560; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; }
   summary .count { margin-left: auto; background: #0f3460; color: #aaa; font-size: 11px; padding: 2px 8px; border-radius: 12px; }
+
   table { width: 100%; border-collapse: collapse; }
-  th { background: #0f2340; color: #888; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; padding: 10px 12px; text-align: left; }
-  td { padding: 10px 12px; border-bottom: 1px solid #1e2d4a; vertical-align: top; }
+  th { background: #0f2340; color: #888; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; padding: 10px 12px; text-align: left; white-space: nowrap; }
+  td { padding: 10px 12px; border-bottom: 1px solid #1e2d4a; vertical-align: middle; }
   tr:last-child td { border-bottom: none; }
   tr:hover td { background: #1e2d4a; }
-  .profit { font-weight: 700; }
-  .profit.green { color: #4caf82; }
-  .profit.amber { color: #f0a500; }
+
+  .profit.green { color: #4caf82; font-weight: 700; }
+  .profit.amber { color: #f0a500; font-weight: 700; }
+  .profit.red   { color: #e94560; font-weight: 700; }
   .roi { font-size: 12px; color: #aaa; }
   .condition { font-size: 11px; padding: 2px 7px; border-radius: 10px; display: inline-block; }
   .condition.new, .condition.like_new { background: #1b4332; color: #4caf82; }
   .condition.faulty { background: #4a1942; color: #e94560; }
   .condition.used { background: #1e2d4a; color: #aaa; }
+
+  .status-badge { font-size: 11px; padding: 3px 8px; border-radius: 10px; display: inline-block; font-weight: 600; }
+  .status-badge.purchased { background: #0f3460; color: #63a4ff; }
+  .status-badge.listed    { background: #3d2b00; color: #f0a500; }
+  .status-badge.sold      { background: #1b4332; color: #4caf82; }
+
   a.listing-link { color: #63a4ff; text-decoration: none; }
   a.listing-link:hover { text-decoration: underline; }
+
   .search-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
   .search-bar input { background: #16213e; border: 1px solid #0f3460; color: #e0e0e0; padding: 8px 14px; border-radius: 6px; font-size: 14px; width: 300px; outline: none; }
   .search-bar input:focus { border-color: #e94560; }
+
   .empty { color: #555; padding: 40px; text-align: center; }
-  #listings-table td:nth-child(5) { color: #888; font-size: 12px; }
+
+  /* Buttons */
+  .btn { border: none; border-radius: 6px; padding: 5px 12px; font-size: 12px; cursor: pointer; font-weight: 600; transition: opacity .15s; }
+  .btn:hover { opacity: .85; }
+  .btn-buy    { background: #e94560; color: #fff; }
+  .btn-list   { background: #f0a500; color: #1a1a2e; }
+  .btn-sell   { background: #4caf82; color: #1a1a2e; }
+  .btn-delete { background: #2a2a3e; color: #888; }
+
+  /* Modal */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 100; align-items: center; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: #16213e; border: 1px solid #0f3460; border-radius: 10px; padding: 28px; width: 360px; }
+  .modal h3 { color: #e94560; margin-bottom: 16px; font-size: 16px; }
+  .modal label { display: block; color: #aaa; font-size: 12px; margin-bottom: 4px; }
+  .modal input { width: 100%; background: #1a1a2e; border: 1px solid #0f3460; color: #e0e0e0; padding: 8px 12px; border-radius: 6px; font-size: 14px; margin-bottom: 16px; outline: none; }
+  .modal input:focus { border-color: #e94560; }
+  .modal .actions { display: flex; gap: 10px; justify-content: flex-end; }
+  .modal .btn-cancel { background: #2a2a3e; color: #aaa; }
+  .modal .btn-confirm { background: #e94560; color: #fff; }
 </style>
 </head>
 <body>
@@ -51,12 +92,19 @@
 </header>
 <nav>
   <button class="active" onclick="switchTab('deals', this)">Top Deals</button>
+  <button onclick="switchTab('portfolio', this)">Portfolio</button>
   <button onclick="switchTab('listings', this)">All Listings</button>
 </nav>
 <main>
   <div id="deals" class="tab active">
     <div id="deals-content"><p class="empty">Loading deals...</p></div>
   </div>
+
+  <div id="portfolio" class="tab">
+    <div class="summary" id="portfolio-summary"></div>
+    <div id="portfolio-content"><p class="empty">Loading portfolio...</p></div>
+  </div>
+
   <div id="listings" class="tab">
     <div class="search-bar">
       <input id="search" type="text" placeholder="Search listings..." oninput="filterListings()">
@@ -65,29 +113,73 @@
     <div id="listings-content"><p class="empty">Click the tab to load listings.</p></div>
   </div>
 </main>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h3 id="modal-title">Confirm</h3>
+    <label id="modal-label">Price (£)</label>
+    <input id="modal-input" type="number" min="0" step="0.01" placeholder="0.00">
+    <div class="actions">
+      <button class="btn btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-confirm" id="modal-confirm">Confirm</button>
+    </div>
+  </div>
+</div>
+
 <script>
   let listingsLoaded = false;
+  let portfolioLoaded = false;
+  let modalCallback = null;
 
+  // ── Tab switching ──────────────────────────────────────────────────────────
   function switchTab(id, btn) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     btn.classList.add('active');
     if (id === 'listings' && !listingsLoaded) loadListings();
+    if (id === 'portfolio') loadPortfolio();
   }
 
-  function profitClass(p) { return p >= 100 ? 'green' : 'amber'; }
+  // ── Modal ──────────────────────────────────────────────────────────────────
+  function openModal(title, label, defaultVal, onConfirm) {
+    document.getElementById('modal-title').textContent = title;
+    document.getElementById('modal-label').textContent = label;
+    document.getElementById('modal-input').value = defaultVal ?? '';
+    document.getElementById('modal').classList.add('open');
+    modalCallback = onConfirm;
+    setTimeout(() => document.getElementById('modal-input').focus(), 50);
+  }
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+    modalCallback = null;
+  }
+  document.getElementById('modal-confirm').onclick = () => {
+    const val = parseFloat(document.getElementById('modal-input').value);
+    if (isNaN(val) || val <= 0) { alert('Enter a valid price.'); return; }
+    closeModal();
+    if (modalCallback) modalCallback(val);
+  };
+  document.getElementById('modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
 
+  // ── Helpers ────────────────────────────────────────────────────────────────
+  function profitClass(p) {
+    if (p == null) return '';
+    return p >= 100 ? 'green' : p >= 50 ? 'amber' : p >= 0 ? 'amber' : 'red';
+  }
   function conditionLabel(c) {
     const labels = { new: 'New', like_new: 'Like New', faulty: 'Faulty', used: 'Used' };
     return `<span class="condition ${c ?? 'used'}">${labels[c] ?? 'Used'}</span>`;
   }
+  function fmt(n) { return n != null ? '£' + Number(n).toFixed(0) : '—'; }
+  function fmtDate(s) { return s ? new Date(s).toLocaleDateString('en-GB') : '—'; }
 
+  // ── Top Deals ──────────────────────────────────────────────────────────────
   async function loadDeals() {
     const res = await fetch('/api/profit');
     const data = await res.json();
     if (!data) { document.getElementById('deals-content').innerHTML = '<p class="empty">No profit data yet — run the scraper first.</p>'; return; }
-
     const keywords = Object.keys(data);
     if (!keywords.length) { document.getElementById('deals-content').innerHTML = '<p class="empty">No profitable deals found in the last run.</p>'; return; }
 
@@ -95,24 +187,30 @@
     const html = keywords.map(kw => {
       const deals = data[kw];
       if (!firstTs && deals[0]?.scrapedAt) firstTs = deals[0].scrapedAt;
-      const rows = deals.map((d, i) => `
+      const rows = deals.map((d, i) => {
+        const desc = d.description
+          ? `<div style="font-size:11px;color:#888;margin-top:3px;max-width:280px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${(d.description).replace(/"/g,'&quot;')}">${d.description.slice(0,120)}</div>`
+          : '';
+        return `
         <tr>
-          <td>#${i + 1}</td>
+          <td>#${i+1}</td>
           <td>${d.matchedItem ?? '—'}</td>
           <td>${d.price ?? '—'}</td>
-          <td>£${d.estimatedResaleGBP}</td>
-          <td>£${d.netAfterFeesGBP}</td>
-          <td class="profit ${profitClass(d.estimatedProfitGBP)}">£${d.estimatedProfitGBP}</td>
+          <td>${fmt(d.estimatedResaleGBP)}</td>
+          <td>${fmt(d.netAfterFeesGBP)}</td>
+          <td class="profit ${profitClass(d.estimatedProfitGBP)}">${fmt(d.estimatedProfitGBP)}</td>
           <td class="roi">${d.roiPercent != null ? d.roiPercent + '%' : '—'}</td>
           <td>${conditionLabel(d.condition)}</td>
           <td>${d.location ?? '—'}</td>
-          <td><a class="listing-link" href="${d.url}" target="_blank" rel="noopener">${d.title ?? 'View'}</a></td>
-        </tr>`).join('');
+          <td><a class="listing-link" href="${d.url}" target="_blank" rel="noopener">${d.title ?? 'View'}</a>${desc}</td>
+          <td><button class="btn btn-buy" onclick='buyDeal(${JSON.stringify(d)})'>Buy</button></td>
+        </tr>`;
+      }).join('');
       return `
         <details open>
-          <summary><span class="kw">${kw}</span><span class="count">${deals.length} deal${deals.length !== 1 ? 's' : ''}</span></summary>
+          <summary><span class="kw">${kw}</span><span class="count">${deals.length} deal${deals.length!==1?'s':''}</span></summary>
           <table>
-            <thead><tr><th>#</th><th>Item</th><th>Buy</th><th>Est. Resale</th><th>Net After Fees</th><th>Profit</th><th>ROI%</th><th>Condition</th><th>Location</th><th>Listing</th></tr></thead>
+            <thead><tr><th>#</th><th>Item</th><th>Buy</th><th>Est. Resale</th><th>Net After Fees</th><th>Profit</th><th>ROI%</th><th>Condition</th><th>Location</th><th>Listing</th><th></th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
         </details>`;
@@ -122,15 +220,114 @@
     if (firstTs) document.getElementById('last-scraped').textContent = 'Last scraped: ' + new Date(firstTs).toLocaleString();
   }
 
-  let allListings = [];
+  function buyDeal(deal) {
+    const price = parseFloat((deal.price ?? '').replace(/[^0-9.]/g, '')) || '';
+    openModal(`Buy — ${deal.matchedItem ?? deal.title}`, 'Price paid (£)', price, async (buyPrice) => {
+      await fetch('/api/portfolio/buy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          listingId: deal.id, title: deal.title, matchedItem: deal.matchedItem,
+          imageUrl: deal.image, listingUrl: deal.url, buyPrice,
+          estimatedResaleGBP: deal.estimatedResaleGBP,
+          estimatedProfitGBP: deal.estimatedProfitGBP,
+          roiPercent: deal.roiPercent,
+        }),
+      });
+      alert(`Added to portfolio at £${buyPrice}`);
+    });
+  }
 
+  // ── Portfolio ──────────────────────────────────────────────────────────────
+  async function loadPortfolio() {
+    portfolioLoaded = true;
+    const res = await fetch('/api/portfolio');
+    const items = await res.json() ?? [];
+    renderPortfolio(items);
+  }
+
+  function renderPortfolio(items) {
+    // Summary stats
+    const sold      = items.filter(i => i.status === 'sold');
+    const active    = items.filter(i => i.status !== 'sold');
+    const invested  = items.reduce((s, i) => s + (i.buyPrice || 0), 0);
+    const returned  = sold.reduce((s, i) => s + (i.soldPrice || 0), 0);
+    const profit    = sold.reduce((s, i) => s + (i.actualProfitGBP || 0), 0);
+
+    document.getElementById('portfolio-summary').innerHTML = `
+      <div class="card"><div class="label">Total Items</div><div class="value white">${items.length}</div></div>
+      <div class="card"><div class="label">Invested</div><div class="value amber">${fmt(invested)}</div></div>
+      <div class="card"><div class="label">Returned</div><div class="value white">${fmt(returned)}</div></div>
+      <div class="card"><div class="label">Actual Profit</div><div class="value ${profit >= 0 ? 'green' : 'red'}">${fmt(profit)}</div></div>
+      <div class="card"><div class="label">Items Sold</div><div class="value green">${sold.length}</div></div>
+      <div class="card"><div class="label">In Progress</div><div class="value white">${active.length}</div></div>`;
+
+    if (!items.length) {
+      document.getElementById('portfolio-content').innerHTML = '<p class="empty">No purchases yet — click "Buy" on a deal to add it.</p>';
+      return;
+    }
+
+    const rows = [...items].reverse().map(item => {
+      let actions = '';
+      if (item.status === 'purchased') {
+        actions = `<button class="btn btn-list" onclick="markListed('${item.id}')">Mark Listed</button>
+                   <button class="btn btn-delete" onclick="deleteItem('${item.id}')" style="margin-left:6px">Remove</button>`;
+      } else if (item.status === 'listed') {
+        actions = `<button class="btn btn-sell" onclick="markSold('${item.id}')">Mark Sold</button>
+                   <button class="btn btn-delete" onclick="deleteItem('${item.id}')" style="margin-left:6px">Remove</button>`;
+      } else {
+        actions = `<button class="btn btn-delete" onclick="deleteItem('${item.id}')">Remove</button>`;
+      }
+
+      const profitVal = item.status === 'sold' ? item.actualProfitGBP : item.estimatedProfitGBP;
+      const profitLabel = item.status === 'sold' ? fmt(profitVal) : `~${fmt(profitVal)}`;
+
+      return `<tr>
+        <td>${item.matchedItem ?? item.title ?? '—'}</td>
+        <td>${fmt(item.buyPrice)}</td>
+        <td>${item.listedPrice ? fmt(item.listedPrice) : '—'}</td>
+        <td>${item.soldPrice ? fmt(item.soldPrice) : '—'}</td>
+        <td class="profit ${profitClass(profitVal)}">${profitLabel}</td>
+        <td><span class="status-badge ${item.status}">${item.status.charAt(0).toUpperCase()+item.status.slice(1)}</span></td>
+        <td>${fmtDate(item.boughtAt)}</td>
+        <td>${item.listingUrl ? `<a class="listing-link" href="${item.listingUrl}" target="_blank" rel="noopener">View</a>` : '—'}</td>
+        <td>${actions}</td>
+      </tr>`;
+    }).join('');
+
+    document.getElementById('portfolio-content').innerHTML = `
+      <table>
+        <thead><tr><th>Item</th><th>Bought</th><th>Listed</th><th>Sold For</th><th>Profit</th><th>Status</th><th>Date</th><th>Listing</th><th>Actions</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+  }
+
+  async function portfolioAction(id, action, extraKey, extraVal) {
+    const body = { id, action };
+    if (extraKey) body[extraKey] = extraVal;
+    await fetch('/api/portfolio/update', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    await loadPortfolio();
+  }
+
+  function markListed(id) {
+    openModal('Mark as Listed', 'eBay listing price (£)', '', price => portfolioAction(id, 'listed', 'listedPrice', price));
+  }
+  function markSold(id) {
+    openModal('Mark as Sold', 'Final sale price (£)', '', price => portfolioAction(id, 'sold', 'soldPrice', price));
+  }
+  async function deleteItem(id) {
+    if (!confirm('Remove this item from portfolio?')) return;
+    await portfolioAction(id, 'delete');
+  }
+
+  // ── All Listings ───────────────────────────────────────────────────────────
+  let allListings = [];
   async function loadListings() {
     listingsLoaded = true;
     const res = await fetch('/api/listings');
     allListings = await res.json() ?? [];
     renderListings(allListings);
   }
-
   function renderListings(items) {
     document.getElementById('listing-count').textContent = `${items.length} listings`;
     if (!items.length) { document.getElementById('listings-content').innerHTML = '<p class="empty">No listings found.</p>'; return; }
@@ -140,16 +337,15 @@
         <td>${l.price ?? '—'}</td>
         <td>${l.location ?? '—'}</td>
         <td>${l.keyword ?? '—'}</td>
-        <td>${l.scrapedAt ? new Date(l.scrapedAt).toLocaleString() : '—'}</td>
+        <td style="color:#888;font-size:12px">${l.scrapedAt ? new Date(l.scrapedAt).toLocaleString() : '—'}</td>
         <td><a class="listing-link" href="${l.url}" target="_blank" rel="noopener">Open</a></td>
       </tr>`).join('');
     document.getElementById('listings-content').innerHTML = `
-      <table id="listings-table">
+      <table>
         <thead><tr><th>Title</th><th>Price</th><th>Location</th><th>Keyword</th><th>Scraped At</th><th>Link</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>`;
   }
-
   function filterListings() {
     const q = document.getElementById('search').value.toLowerCase();
     renderListings(q ? allListings.filter(l =>
