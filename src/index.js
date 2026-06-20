@@ -9,20 +9,20 @@ import { notifyDeals } from './notifier.js';
 
 const KEYWORDS = [
   // Individual GPUs — find single-card sellers, not whole PCs
-  'rtx 3060', 'rtx 3070', 'rtx 3080', 'rtx 3090',
-  'rtx 4060', 'rtx 4070', 'rtx 4080', 'rtx 4090',
-  'rx 6700', 'rx 6800', 'rx 6900', 'rx 7800', 'rx 7900',
+  'rtx 3060', 'rtx 3070', 'rtx 3080',
+  'rtx 4060', 'rtx 4070', 'rtx 4080',
+  'rx 6700', 'rx 6800', 'rx 6900', 'rx 7800',
   'graphics card', 'gpu',
   // Individual CPUs
   'ryzen 5600', 'ryzen 5800', 'ryzen 7600', 'ryzen 7800x3d',
   // Apple
   'macbook',
-  // Consoles
-  'ps5', 'playstation 5', 'xbox series x', 'xbox series s',
   // Laptops
   'gaming laptop', 'dell xps', 'thinkpad',
   // PC
-  'gaming pc', 'pc', 'desktop', 'computer'
+  'gaming pc', 'pc', 'desktop', 'computer',
+  // Guitar Pedals
+  ''
 ];
 
 const { FB_EMAIL, FB_PASSWORD } = process.env;

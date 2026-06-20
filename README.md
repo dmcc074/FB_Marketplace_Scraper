@@ -1,4 +1,4 @@
-# FB Marketplace Scraper — Belfast
+# FB Marketplace Scraper - Belfast
 
 > A personal side project I built to automate finding profitable tech resell deals on Facebook Marketplace in Belfast. I got tired of manually checking listings every day and missing good deals, so I decided to automate the whole thing.
 
@@ -6,7 +6,7 @@
 
 ## What Is This?
 
-This is a Node.js scraper that automatically searches Facebook Marketplace in Belfast for underpriced tech items — GPUs, CPUs, iPhones, MacBooks, consoles — and calculates how much profit you could make flipping them on eBay. If a deal clears your minimum profit threshold, it fires a Discord notification with all the details.
+This is a Node.js scraper that automatically searches Facebook Marketplace in Belfast for underpriced tech items - GPUs, CPUs, iPhones, MacBooks, consoles - and calculates how much profit you could make flipping them on eBay. If a deal clears your minimum profit threshold, it fires a Discord notification with all the details.
 
 I built this as a personal project to learn more about web scraping, automation, and working with real-world messy data. It ended up being a lot more complex than I expected (Facebook really doesn't want you scraping it), but I learned a tonne along the way.
 
@@ -24,19 +24,19 @@ I built this as a personal project to learn more about web scraping, automation,
 
 ## Features
 
-- **Automated scraping** — runs on a schedule (every N hours) without any manual input
-- **Profit analysis** — built-in resale price guide for 100+ tech items with condition multipliers
-- **Description validation** — visits each matched listing's page to confirm the item is what the title claims (catches accessories misidentified as the actual device)
-- **NI location filter** — whitelist of ~60 NI towns; Facebook's radius parameter doesn't actually restrict results reliably so results from Aberdeen, Bristol, London etc. were slipping through
-- **Accessory filter** — rejects screen protectors, cases, chargers etc. that mention a device model but aren't the device itself
-- **Bundle filter** — rejects GPUs/CPUs listed as part of a full gaming PC (can't value those accurately)
-- **Discord notifications** — rich embeds with listing photo, profit breakdown, description snippet, and a direct link
-- **Seen listings persistence** — only notifies you once per listing, not every run
-- **Portfolio tracker** — track what you've bought, listed on eBay, and sold; calculates actual vs estimated profit
-- **Web dashboard** — local single-page app to browse deals, all listings, and your portfolio
-- **Email digest** — optional daily HTML email summary (requires SMTP config)
-- **Rate limiting** — randomised delays between requests with automatic retry on Discord 429s
-- **CSV + JSON output** — all results saved locally for further analysis
+- **Automated scraping** - runs on a schedule (every N hours) without any manual input
+- **Profit analysis** - built-in resale price guide for 100+ tech items with condition multipliers
+- **Description validation** - visits each matched listing's page to confirm the item is what the title claims (catches accessories misidentified as the actual device)
+- **NI location filter** - whitelist of ~60 NI towns; Facebook's radius parameter doesn't actually restrict results reliably so results from Aberdeen, Bristol, London etc. were slipping through
+- **Accessory filter** - rejects screen protectors, cases, chargers etc. that mention a device model but aren't the device itself
+- **Bundle filter** - rejects GPUs/CPUs listed as part of a full gaming PC (can't value those accurately)
+- **Discord notifications** - rich embeds with listing photo, profit breakdown, description snippet, and a direct link
+- **Seen listings persistence** - only notifies you once per listing, not every run
+- **Portfolio tracker** - track what you've bought, listed on eBay, and sold; calculates actual vs estimated profit
+- **Web dashboard** - local single-page app to browse deals, all listings, and your portfolio
+- **Email digest** - optional daily HTML email summary (requires SMTP config)
+- **Rate limiting** - randomised delays between requests with automatic retry on Discord 429s
+- **CSV + JSON output** - all results saved locally for further analysis
 
 ---
 
@@ -44,13 +44,13 @@ I built this as a personal project to learn more about web scraping, automation,
 
 | Tool | Why |
 |---|---|
-| [Node.js](https://nodejs.org/) | Main runtime — ES modules throughout |
-| [Puppeteer](https://pptr.dev/) | Headless Chrome for scraping Facebook (can't use plain `fetch` — it's all client-side rendered) |
+| [Node.js](https://nodejs.org/) | Main runtime - ES modules throughout |
+| [Puppeteer](https://pptr.dev/) | Headless Chrome for scraping Facebook (can't use plain `fetch` - it's all client-side rendered) |
 | [dotenv](https://github.com/motdotla/dotenv) | Environment variable management |
 | [fast-csv](https://c2fo.github.io/fast-csv/) | Writing results to CSV |
 | [nodemailer](https://nodemailer.com/) | Email digest |
-| Discord Webhooks | Notifications — no library needed, just a `POST` request |
-| Vanilla Node.js `http` | Dashboard server — deliberately avoided Express to keep dependencies minimal |
+| Discord Webhooks | Notifications - no library needed, just a `POST` request |
+| Vanilla Node.js `http` | Dashboard server - deliberately avoided Express to keep dependencies minimal |
 
 ---
 
@@ -59,13 +59,13 @@ I built this as a personal project to learn more about web scraping, automation,
 ```
 fb-scraper/
 ├── src/
-│   ├── index.js            # Entry point — orchestrates the full run and scheduler
+│   ├── index.js            # Entry point - orchestrates the full run and scheduler
 │   ├── browser.js          # Launches Puppeteer with the right options
 │   ├── auth.js             # Facebook login and cookie persistence
 │   ├── scraper.js          # Searches a keyword, scrolls, returns listing cards
 │   ├── extractor.js        # Pulls title/price/location/condition from a listing card element
 │   ├── listingDetail.js    # Visits individual listing pages to get the full description
-│   ├── profitAnalyser.js   # Core logic — matches listings to the RESALE_GUIDE, calculates profit
+│   ├── profitAnalyser.js   # Core logic - matches listings to the RESALE_GUIDE, calculates profit
 │   ├── ebayScraper.js      # (Optional) Fetches live eBay UK sold prices
 │   ├── notifier.js         # Sends Discord webhook embeds with rate limiting and 429 retry
 │   ├── seenListings.js     # Persists seen listing IDs so we don't re-notify
@@ -75,12 +75,12 @@ fb-scraper/
 │   └── utils.js            # randomDelay, RateLimiter, isUKListing, isNIListing
 ├── dashboard/
 │   └── index.html          # Single-page dashboard (vanilla JS, no framework)
-├── data/                   # Auto-created — stores JSON/CSV output and portfolio
+├── data/                   # Auto-created - stores JSON/CSV output and portfolio
 │   ├── results_latest.json
 │   ├── profit_latest.json
 │   ├── seen.json
 │   └── portfolio.json
-├── cookies/                # Auto-created — stores FB session cookies
+├── cookies/                # Auto-created - stores FB session cookies
 ├── .env                    # Your config (NOT committed to git)
 ├── .env.example            # Template to copy from
 └── package.json
@@ -93,7 +93,7 @@ fb-scraper/
 ### Prerequisites
 
 - Node.js v18 or later
-- A Facebook account (I use a dedicated account for this — keeps the main account safe)
+- A Facebook account (I use a dedicated account for this - keeps the main account safe)
 - A Discord server with a webhook URL (optional but highly recommended)
 
 ### Install
@@ -122,15 +122,15 @@ FB_PASSWORD=your_facebook_password
 # ── Scraper options ───────────────────────────────────────────
 HEADLESS=true            # false = watch the browser (useful for debugging)
 SCROLL_ROUNDS=3          # How many times to scroll per keyword search
-CITY_SLUG=belfast        # Facebook Marketplace city slug
-RADIUS=30                # Search radius in km (FB doesn't always respect this — the NI filter handles it)
+CITY_SLUG=__________        # Facebook Marketplace city slug
+RADIUS=30                # Search radius in km (FB doesn't always respect this - the NI filter handles it)
 
 # ── Profit thresholds ─────────────────────────────────────────
 MIN_PROFIT_GBP=40        # Minimum estimated profit to flag a deal
 MIN_ROI_PERCENT=15       # Minimum return on investment %
 
 # ── Live eBay prices ──────────────────────────────────────────
-USE_LIVE_PRICES=false    # eBay blocks scrapers aggressively — leave false
+USE_LIVE_PRICES=false    # eBay blocks scrapers aggressively - leave false
 
 # ── Scheduling ────────────────────────────────────────────────
 RUN_INTERVAL_HOURS=12    # 0 = run once and exit
@@ -138,7 +138,7 @@ RUN_INTERVAL_HOURS=12    # 0 = run once and exit
 # ── Discord notifications (optional) ─────────────────────────
 DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/your_webhook_here
 
-# ── Email digest (optional — leave blank to disable) ──────────
+# ── Email digest (optional - leave blank to disable) ──────────
 EMAIL_HOST=smtp.gmail.com
 EMAIL_PORT=587
 EMAIL_USER=your_email@gmail.com
@@ -164,7 +164,7 @@ npm start
 
 ### Run on a schedule
 
-Set `RUN_INTERVAL_HOURS=12` in `.env` — it loops indefinitely, sleeping between runs. Press `Ctrl+C` to stop.
+Set `RUN_INTERVAL_HOURS=12` in `.env` - it loops indefinitely, sleeping between runs. Press `Ctrl+C` to stop.
 
 ### Start the dashboard
 
@@ -180,7 +180,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser. The dashboa
 
 ### The Scraping Problem
 
-Facebook Marketplace is entirely client-side rendered — a plain `fetch` or `curl` just returns a blank HTML shell. Puppeteer launches a real headless Chrome browser, which executes all of Facebook's JavaScript the same way a human would.
+Facebook Marketplace is entirely client-side rendered - a plain `fetch` or `curl` just returns a blank HTML shell. Puppeteer launches a real headless Chrome browser, which executes all of Facebook's JavaScript the same way a human would.
 
 The browser logs in with your credentials on first run and saves the session cookies to disk. Subsequent runs reuse those cookies so it doesn't have to log in every time (Facebook gets suspicious if you log in too often from a headless browser).
 
@@ -194,15 +194,15 @@ Using `/marketplace/belfast/` as a path prefix (a city slug) makes Facebook rout
 
 ### Location Filtering
 
-Even with `radius=30`, Facebook was returning listings from all over the UK — Aberdeen, Bristol, London, Cardiff, you name it. I ended up scrapping the radius as the primary filter and instead built a **whitelist** of ~60 Northern Ireland town names. After scraping, any listing whose location doesn't match a recognisable NI place name gets dropped. This cut my results from ~650 down to ~375 in testing, all correctly local.
+Even with `radius=30`, Facebook was returning listings from all over the UK - Aberdeen, Bristol, London, Cardiff, you name it. I ended up scrapping the radius as the primary filter and instead built a **whitelist** of ~60 Northern Ireland town names. After scraping, any listing whose location doesn't match a recognisable NI place name gets dropped. This cut my results from ~650 down to ~375 in testing, all correctly local.
 
 ### Profit Analysis
 
 For each listing that survives location filtering:
 
-1. The title is tested against an **accessory filter** — listings for phone cases, screen protectors, chargers etc. that mention a device model are rejected before any further processing
+1. The title is tested against an **accessory filter** - listings for phone cases, screen protectors, chargers etc. that mention a device model are rejected before any further processing
 2. The listing's page is fetched to get the **full description** (with a 2–4s rate-limited delay between each)
-3. The combined title + description is matched against the **RESALE_GUIDE** — 100+ product patterns, ordered most-specific first within each category
+3. The combined title + description is matched against the **RESALE_GUIDE** - 100+ product patterns, ordered most-specific first within each category
 4. A **bundle filter** rejects GPU/CPU components listed as part of a full PC (title or description mentions "gaming PC", "full setup", etc.)
 5. **Condition** is detected from keywords in the combined text (`faulty`, `like_new`, `new`, `used`)
 6. A **condition multiplier** is applied to the base resale estimate
@@ -232,11 +232,11 @@ The `RateLimiter` tracks the *earliest allowed next call time*, so if a page nat
 
 ### Dashboard
 
-A minimal HTTP server in `serve.js` (no Express — just Node's built-in `http` module) serves a single-page dashboard. Three tabs:
+A minimal HTTP server in `serve.js` (no Express - just Node's built-in `http` module) serves a single-page dashboard. Three tabs:
 
-- **Top Deals** — grouped by search keyword, colour-coded by profit level, with the listing description visible on hover and a "Buy" button to add to portfolio
-- **Portfolio** — tracks each purchase through its lifecycle: Purchased → Listed → Sold; actual profit is calculated as `soldPrice × 0.872 − 10 − buyPrice`
-- **All Listings** — searchable/filterable table of every scraped listing from the last run
+- **Top Deals** - grouped by search keyword, colour-coded by profit level, with the listing description visible on hover and a "Buy" button to add to portfolio
+- **Portfolio** - tracks each purchase through its lifecycle: Purchased → Listed → Sold; actual profit is calculated as `soldPrice × 0.872 − 10 − buyPrice`
+- **All Listings** - searchable/filterable table of every scraped listing from the last run
 
 ---
 
@@ -245,10 +245,10 @@ A minimal HTTP server in `serve.js` (no Express — just Node's built-in `http` 
 The `RESALE_GUIDE` in `profitAnalyser.js` covers estimated UK eBay sold prices for:
 
 **GPUs**
-- NVIDIA RTX 30 series (3050 → 3090 Ti)
-- NVIDIA RTX 40 series (4050 → 4090)
+- NVIDIA RTX 30 series (3050 → 3080 Ti)
+- NVIDIA RTX 40 series (4050 → 4080)
 - AMD RX 6000 series (6600 → 6950 XT)
-- AMD RX 7000 series (7600 → 7900 XTX)
+- AMD RX 7000 series (7600 → 7900)
 
 **CPUs**
 - Intel Core 12th gen (i5-12600K, i7-12700K, i9-12900K)
@@ -260,20 +260,10 @@ The `RESALE_GUIDE` in `profitAnalyser.js` covers estimated UK eBay sold prices f
 **RAM:** DDR4 and DDR5 in 8/16/32/64GB
 
 **Apple**
-- iPhones 12 through 16 (all Pro/Plus/Mini variants)
-- iPad Pro 11" and 12.9"/13"
-- iPad Air 4th gen, M1, M2
-- iPad mini 6
 - MacBook Air M1, M2, M3
 - MacBook Pro M-chip 13", 14", 16"
 
-*(Intel MacBooks excluded — resale values are too inconsistent to estimate reliably)*
-
-**Consoles**
-- PS5 (disc and digital)
-- Xbox Series X and Series S
-- Nintendo Switch and Switch OLED
-- Steam Deck and Steam Deck OLED
+*(Intel MacBooks excluded - resale values are too inconsistent to estimate reliably)*
 
 **Laptops:** Dell XPS 13/15, ThinkPad X1 Carbon
 
@@ -285,33 +275,32 @@ The `RESALE_GUIDE` in `profitAnalyser.js` covers estimated UK eBay sold prices f
 
 Some problems that took longer than expected to solve:
 
-**Facebook ignoring location** — lat/lon URL parameters were being overridden by the account's saved location (mine was set to San Francisco from creating the account). Switching to the city-slug URL format fixed it.
+**Facebook ignoring location** - lat/lon URL parameters were being overridden by the account's saved location (mine was set to San Francisco from creating the account). Switching to the city-slug URL format fixed it.
 
-**Title showing as price** — Facebook's listing cards have multiple `<span dir="auto">` elements with no distinguishing attributes. Some listings show a "was price" alongside the current price, so the second price was being picked up as the title. Fixed by filtering out *all* price-like spans before selecting the title.
+**Title showing as price** - Facebook's listing cards have multiple `<span dir="auto">` elements with no distinguishing attributes. Some listings show a "was price" alongside the current price, so the second price was being picked up as the title. Fixed by filtering out *all* price-like spans before selecting the title.
 
-**Mainland UK results everywhere** — as above, the `radius` parameter does basically nothing. Built a whitelist filter instead.
+**Mainland UK results everywhere** - as above, the `radius` parameter does basically nothing. Built a whitelist filter instead.
 
-**False positives from accessories** — a PaperFeel Screen Protector for iPad Pro 11" was showing up as a profitable "iPad Pro 11" at £5 with £438 estimated profit. The fix was an accessory keyword filter on the listing title, checked before doing anything else.
+**False positives from accessories** - a PaperFeel Screen Protector for iPad Pro 11" was showing up as a profitable "iPad Pro 11" at £5 with £438 estimated profit. The fix was an accessory keyword filter on the listing title, checked before doing anything else.
 
-**Discord rate limiting** — sending 20+ embeds back-to-back hits the rate limit fast. Added a 1.5–2.5s gap between sends and proper handling of the `retry_after` value in 429 responses.
+**Discord rate limiting** - sending 20+ embeds back-to-back hits the rate limit fast. Added a 1.5–2.5s gap between sends and proper handling of the `retry_after` value in 429 responses.
 
 ---
 
 ## Known Limitations
 
-- **Facebook session expiry** — cookies last a few days. If the scraper stops finding listings, delete the `cookies/` folder and let it re-login.
-- **Headless detection** — Facebook occasionally serves a CAPTCHA to headless browsers. Running with `HEADLESS=false` and completing it manually usually clears the block.
-- **Static resale prices** — market values drift. Worth updating `RESALE_GUIDE` every few months.
-- **eBay live prices** — eBay returns 403 for scraper requests. The static guide is the reliable path unless you get an eBay API key.
-- **Dashboard not mobile-friendly** — works fine on desktop, haven't got round to responsive design.
-- **No proxy support** — if your IP gets soft-banned by Facebook, you'd need to add proxy rotation, which isn't implemented.
+- **Facebook session expiry** - cookies last a few days. If the scraper stops finding listings, delete the `cookies/` folder and let it re-login.
+- **Headless detection** - Facebook occasionally serves a CAPTCHA to headless browsers. Running with `HEADLESS=false` and completing it manually usually clears the block.
+- **Static resale prices** - market values drift. Worth updating `RESALE_GUIDE` every few months.
+- **eBay live prices** - eBay returns 403 for scraper requests. The static guide is the reliable path unless you get an eBay API key.
+- **Dashboard not mobile-friendly** - works fine on desktop, haven't got round to responsive design.
+- **No proxy support** - if your IP gets soft-banned by Facebook, you'd need to add proxy rotation, which isn't implemented.
 
 ---
 
 ## Ideas for Future
 
-- [ ] eBay Finding API for accurate live sold prices
-- [ ] Price history — chart how listings' prices change over time
+- [ ] Price history - chart how listings' prices change over time
 - [ ] Multi-city support (Derry, Dublin, etc.)
 - [ ] Auto-draft eBay listing from a portfolio entry
 - [ ] Mobile-friendly dashboard
@@ -322,10 +311,10 @@ Some problems that took longer than expected to solve:
 
 ## Disclaimer
 
-This project was built purely for personal educational use. Web scraping may violate Facebook's Terms of Service — use it responsibly, don't hammer their servers, and don't use it for anything you wouldn't be comfortable explaining to someone. The profit estimates are just that — estimates based on historical eBay sold prices. Always do your own research before spending money.
+This project was built purely for personal educational use. Web scraping may violate Facebook's Terms of Service - use it responsibly, don't hammer their servers, and don't use it for anything you wouldn't be comfortable explaining to someone. The profit estimates are just that - estimates based on historical eBay sold prices. Always do your own research before spending money.
 
 ---
 
 ## License
 
-MIT — do whatever you want with it, just don't blame me if you lose money on a dodgy RTX 3070.
+MIT - do whatever you want with it, just don't blame me if you lose money on a dodgy RTX 3070.
