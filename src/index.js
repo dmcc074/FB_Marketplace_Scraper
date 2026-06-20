@@ -15,10 +15,8 @@ const KEYWORDS = [
   'graphics card', 'gpu',
   // Individual CPUs
   'ryzen 5600', 'ryzen 5800', 'ryzen 7600', 'ryzen 7800x3d',
-  'i5 12600k', 'i7 12700k', 'i5 13600k', 'i7 13700k',
   // Apple
-  'macbook', 'iphone 13', 'iphone 14', 'iphone 15',
-  'ipad pro', 'ipad air', 'ipad mini',
+  'macbook',
   // Consoles
   'ps5', 'playstation 5', 'xbox series x', 'xbox series s',
   // Laptops
